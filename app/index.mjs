@@ -4,7 +4,6 @@ import createRouter from './createRouter.mjs';
 
 const app = new Koa();
 const router = createRouter();
-router.get('/', ctx => ctx.body = '!');
 
 app
   .use(router.routes())

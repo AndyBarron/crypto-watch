@@ -1,1 +1,6 @@
 extends: airbnb-base
+rules:
+  no-restricted-syntax:
+  - 'off'
+  no-return-await: 
+  - 'off'

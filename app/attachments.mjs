@@ -1,18 +1,21 @@
 import moment from 'moment';
 import numeral from 'numeral';
-import { getSummary, getInfo } from './api';
+import { getSummary, getInfo } from './api.mjs';
 
 const SUPPLY_FORMAT = '0,0.0a';
 const VALUE_FORMAT = '$0,0.00';
 const MARKET_CAP_FORMAT = '$0,0.0a';
 const PERCENT_FORMAT = '+0,0.0';
 
+// eslint-disable-next-line import/prefer-default-export
 export const createAttachmentsForIdentifier = async (identifier) => {
   const info = await getInfo(identifier);
   if (!info) {
     return [{ text: `_No such cryptocurrency: "${identifier}"_` }];
   }
-  const { fullName, imageUrl, infoUrl, symbol } = info;
+  const {
+    fullName, imageUrl, infoUrl, symbol,
+  } = info;
   const summary = await getSummary(symbol);
   const details = {
     title: fullName,
@@ -24,7 +27,7 @@ export const createAttachmentsForIdentifier = async (identifier) => {
       `_Market cap: ${numeral(summary.marketCap).format(MARKET_CAP_FORMAT)}_`,
       `_Supply: ${numeral(summary.supply).format(SUPPLY_FORMAT)}_`,
     ].join('\n'),
-  }
+  };
   const attachments = [details];
   const priceEntries = summary.pastPriceEntries;
   for (const { timestamp, price } of priceEntries) {

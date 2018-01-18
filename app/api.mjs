@@ -32,7 +32,7 @@ const getCurrentStats = async (symbol) => {
     marketCap: data.MKTCAP,
   };
   return output;
-}
+};
 
 export const getSummary = async (symbol) => {
   const now = moment();
@@ -44,9 +44,7 @@ export const getSummary = async (symbol) => {
     moment.duration(6, 'months'),
   ].map(duration => duration.asMilliseconds());
   const timestamps = offsets.map(offset => now.valueOf() - offset);
-  timestamps.push(
-    moment(now).year(now.year() - 1),
-  );
+  timestamps.push(moment(now).year(now.year() - 1));
   const timestampToPrice = new Map();
   const pricePromises = timestamps.map(async (timestamp) => {
     timestampToPrice.set(timestamp, await getPriceAtTime(symbol, timestamp));
@@ -62,7 +60,7 @@ export const getSummary = async (symbol) => {
     ...stats,
     pastPriceEntries: pastPrices,
   };
-}
+};
 
 // Auto-update functionality
 
@@ -79,14 +77,13 @@ export const getInfoByName = async (name) => {
   await mapLoaded;
   return maps.name.get(name.toLowerCase());
 };
-export const getInfo = async (identifier) => {
-  return await getInfoBySymbol(identifier) || await getInfoByName(identifier);
-};
+export const getInfo = async identifier =>
+  await getInfoBySymbol(identifier) || await getInfoByName(identifier);
 
 const LIST_URL = `${BASE_URL}/all/coinlist`;
 const getCurrencyMaps = async () => {
   const allData = (await axios(LIST_URL)).data.Data;
-  const maps = {
+  const newMaps = {
     symbol: new Map(),
     name: new Map(),
   };
@@ -99,14 +96,15 @@ const getCurrencyMaps = async () => {
       fullName: info.FullName,
       totalSupply: info.TotalCoinSupply,
     };
-    maps.symbol.set(data.symbol.toLowerCase(), data);
-    maps.name.set(data.name.toLowerCase(), data);
+    newMaps.symbol.set(data.symbol.toLowerCase(), data);
+    newMaps.name.set(data.name.toLowerCase(), data);
   }
-  return maps;
-}
+  return newMaps;
+};
 
+/* eslint-disable no-await-in-loop */
 (async () => {
-  while (true) {
+  while (true) { // eslint-disable-line no-constant-condition
     maps = await getCurrencyMaps();
     if (resolveLoaded) {
       resolveLoaded();
@@ -115,3 +113,4 @@ const getCurrencyMaps = async () => {
     await sleepSeconds(60 * 60);
   }
 })();
+/* eslint-enable no-await-in-loop */
