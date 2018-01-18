@@ -1,7 +1,7 @@
 {
-  "name": "crypto-bot",
+  "name": "crypto-watch",
   "version": "1.0.0",
-  "description": "Slack bot for cryptocurrency status",
+  "description": "Slack app for cryptocurrency status",
   "main": "app/index",
   "scripts": {
     "start": "forever --minUptime 1000 --spinSleepTime 1000 -m Infinity -c \"npm run server\" .",
@@ -12,14 +12,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AndyBarron/crypto-bot.git"
+    "url": "git+https://github.com/AndyBarron/crypto-watch.git"
   },
   "author": "Andy Barron <AndrewLBarron@gmail.com>",
   "license": "Unlicense",
   "bugs": {
-    "url": "https://github.com/AndyBarron/crypto-bot/issues"
+    "url": "https://github.com/AndyBarron/crypto-watch/issues"
   },
-  "homepage": "https://github.com/AndyBarron/crypto-bot#readme",
+  "homepage": "https://github.com/AndyBarron/crypto-watch#readme",
   "dependencies": {
     "axios": "0.17.1",
     "forever": "0.15.3",
