@@ -1,0 +1,40 @@
+{
+  "name": "crypto-bot",
+  "version": "1.0.0",
+  "description": "Slack bot for cryptocurrency status",
+  "main": "app/index",
+  "scripts": {
+    "start": "forever --minUptime 1000 --spinSleepTime 1000 -m Infinity -c \"npm run server\" .",
+    "watch": "nodemon --watch . --ignore ./node_modules/ --ext mjs --exec \"npm run server\"",
+    "server": "node --experimental-modules .",
+    "lint": "eslint --ext mjs .",
+    "format": "npm run lint -- --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AndyBarron/crypto-bot.git"
+  },
+  "author": "Andy Barron <AndrewLBarron@gmail.com>",
+  "license": "Unlicense",
+  "bugs": {
+    "url": "https://github.com/AndyBarron/crypto-bot/issues"
+  },
+  "homepage": "https://github.com/AndyBarron/crypto-bot#readme",
+  "dependencies": {
+    "axios": "0.17.1",
+    "forever": "0.15.3",
+    "koa": "2.4.1",
+    "koa-bodyparser": "4.2.0",
+    "koa-router": "7.3.0",
+    "lodash": "4.17.4",
+    "moment": "2.20.1",
+    "numeral": "2.0.6",
+    "strict-env": "1.1.0"
+  },
+  "devDependencies": {
+    "eslint": "4.15.0",
+    "eslint-config-airbnb-base": "12.1.0",
+    "eslint-plugin-import": "2.8.0",
+    "nodemon": "1.14.11"
+  }
+}
