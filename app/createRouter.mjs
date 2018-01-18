@@ -40,6 +40,10 @@ const createRouter = () => {
     ctx.body = 'Crypto Bot says hello!'; // TODO: Pretty landing page
   });
 
+  router.get('/health', async (ctx) => {
+    ctx.body = '';
+  });
+
   return router;
 };
 
