@@ -19,8 +19,8 @@ const getPriceAtTime = async (symbol, rawTimestamp) => {
   }
   const query = qs.stringify({
     fsym: symbol,
-    tsyms: 'USD',
     ts: Math.round(timestamp / 1000),
+    tsyms: 'USD',
   });
   const url = `${BASE_URL}/pricehistorical?${query}`;
   const { data } = await axios(url);
@@ -37,11 +37,11 @@ const getCurrentStats = async (symbol) => {
   const url = `${BASE_URL}/pricemultifull?${query}`;
   const data = (await axios(url)).data.RAW[symbol].USD;
   const output = {
-    symbol,
-    price: data.PRICE,
-    updated: data.LASTUPDATE * 1000,
-    supply: data.SUPPLY,
     marketCap: data.MKTCAP,
+    price: data.PRICE,
+    supply: data.SUPPLY,
+    symbol,
+    updated: data.LASTUPDATE * 1000,
   };
   return output;
 };
@@ -66,7 +66,7 @@ export const getSummary = async (symbol) => {
   const pastPrices = _.chain(priceEntries)
     .sortBy(0)
     .reverse()
-    .map(([timestamp, price]) => ({ timestamp, price }))
+    .map(([timestamp, price]) => ({ price, timestamp }))
     .value();
   return {
     ...stats,
@@ -96,16 +96,16 @@ const LIST_URL = `${BASE_URL}/all/coinlist`;
 const getCurrencyMaps = async () => {
   const allData = (await axios(LIST_URL)).data.Data;
   const newMaps = {
-    symbol: new Map(),
     name: new Map(),
+    symbol: new Map(),
   };
   for (const info of Object.values(allData)) {
     const data = {
-      infoUrl: LINK_BASE + info.Url,
+      fullName: info.FullName,
       imageUrl: LINK_BASE + info.ImageUrl,
+      infoUrl: LINK_BASE + info.Url,
       name: info.CoinName,
       symbol: info.Symbol,
-      fullName: info.FullName,
       totalSupply: info.TotalCoinSupply,
     };
     newMaps.symbol.set(data.symbol.toLowerCase(), data);

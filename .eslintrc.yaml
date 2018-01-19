@@ -6,3 +6,5 @@ rules:
   - 'off'
   no-return-await: 
   - 'off'
+  sort-keys:
+  - 'error'

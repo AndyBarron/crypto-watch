@@ -23,15 +23,15 @@ export const createAttachmentsForIdentifier = async (identifier) => {
   const value = summary.price;
   const valueText = value <= 10 ? `${value}` : numeral(value).format(VALUE_ROUNDED_FORMAT);
   const details = {
-    title: fullName,
-    title_link: infoUrl,
-    thumb_url: imageUrl,
     mrkdwn_in: ['text'],
     text: [
       `*Value: ${valueText}*`,
       `_Market cap: ${numeral(summary.marketCap).format(MARKET_CAP_FORMAT)}_`,
       `_Supply: ${numeral(summary.supply).format(SUPPLY_FORMAT)}_`,
     ].join('\n'),
+    thumb_url: imageUrl,
+    title: fullName,
+    title_link: infoUrl,
   };
   const attachments = [details];
   const priceEntries = summary.pastPriceEntries.filter(entry => entry.price);
@@ -43,8 +43,11 @@ export const createAttachmentsForIdentifier = async (identifier) => {
     const percent = numeral(percentChange).format(PERCENT_FORMAT);
     attachments.push({
       color: percentChange >= 0 ? 'good' : 'danger',
-      text: `*${percent}%* since ${moment(timestamp).fromNow()} _<!date^${moment(timestamp).unix()}^({date_short})| >_`,
       mrkdwn_in: ['text'],
+      text: [
+        `*${percent}%* since ${moment(timestamp).fromNow()}`,
+        `_<!date^${moment(timestamp).unix()}^({date_short})| >_`,
+      ].join(' '),
     });
     for (let i = 0; i < attachments.length - 1; i++) {
       const [current, next] = attachments.slice(i);
