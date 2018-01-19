@@ -2,7 +2,7 @@ import _ from 'lodash';
 import LruCache from 'lru-cache';
 import moment from 'moment';
 import qs from 'querystring';
-import axios from './axiosThrottled';
+import axios from './axiosThrottled.mjs';
 import { sleepSeconds } from './utils.mjs';
 
 const BASE_URL = 'https://min-api.cryptocompare.com/data';

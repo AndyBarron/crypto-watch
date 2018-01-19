@@ -29,14 +29,11 @@ export const createAttachmentsForIdentifier = async (identifier) => {
     ].join('\n'),
   };
   const attachments = [details];
-  const priceEntries = summary.pastPriceEntries;
+  const priceEntries = summary.pastPriceEntries.filter(entry => entry.price);
+  // TODO: Investigate entries with price = 0. Nonexistent coin, or too low to parse?
+  // https://min-api.cryptocompare.com/data/pricehistorical?fsym=BCH&tsyms=USD&ts=1500534000
+  // https://min-api.cryptocompare.com/data/pricehistorical?fsym=BCH&tsyms=USD&ts=1484809200
   for (const { timestamp, price } of priceEntries) {
-    if (price === 0) {
-      // TODO: Investigate further.
-      // https://min-api.cryptocompare.com/data/pricehistorical?fsym=BCH&tsyms=USD&ts=1500534000
-      // https://min-api.cryptocompare.com/data/pricehistorical?fsym=BCH&tsyms=USD&ts=1484809200
-      continue;
-    }
     const percentChange = ((summary.price / price) - 1) * 100;
     const percent = numeral(percentChange).format(PERCENT_FORMAT);
     attachments.push({
