@@ -1,20 +1,32 @@
 import _ from 'lodash';
-import axios from 'axios';
+import LruCache from 'lru-cache';
 import moment from 'moment';
 import qs from 'querystring';
+import axios from './axiosThrottled';
 import { sleepSeconds } from './utils.mjs';
 
 const BASE_URL = 'https://min-api.cryptocompare.com/data';
 const LINK_BASE = 'https://cryptocompare.com';
 
-const getPriceAtTime = async (symbol, timestamp) => {
+const timeCache = new LruCache({
+  max: 1000,
+});
+const getPriceAtTime = async (symbol, rawTimestamp) => {
+  const timestamp = moment(rawTimestamp).startOf('hour').valueOf();
+  const cacheKey = `${symbol}:${timestamp}`;
+  if (timeCache.has(cacheKey)) {
+    return timeCache.get(cacheKey);
+  }
   const query = qs.stringify({
     fsym: symbol,
     tsyms: 'USD',
     ts: Math.round(timestamp / 1000),
   });
   const url = `${BASE_URL}/pricehistorical?${query}`;
-  return (await axios(url)).data[symbol].USD;
+  const { data } = await axios(url);
+  const price = data[symbol].USD;
+  timeCache.set(cacheKey, price);
+  return price;
 };
 
 const getCurrentStats = async (symbol) => {

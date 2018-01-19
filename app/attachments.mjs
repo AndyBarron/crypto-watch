@@ -31,6 +31,12 @@ export const createAttachmentsForIdentifier = async (identifier) => {
   const attachments = [details];
   const priceEntries = summary.pastPriceEntries;
   for (const { timestamp, price } of priceEntries) {
+    if (price === 0) {
+      // TODO: Investigate further.
+      // https://min-api.cryptocompare.com/data/pricehistorical?fsym=BCH&tsyms=USD&ts=1500534000
+      // https://min-api.cryptocompare.com/data/pricehistorical?fsym=BCH&tsyms=USD&ts=1484809200
+      continue;
+    }
     const percentChange = ((summary.price / price) - 1) * 100;
     const percent = numeral(percentChange).format(PERCENT_FORMAT);
     attachments.push({

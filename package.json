@@ -23,10 +23,12 @@
   "dependencies": {
     "axios": "0.17.1",
     "forever": "0.15.3",
+    "function-rate-limit": "1.1.0",
     "koa": "2.4.1",
     "koa-bodyparser": "4.2.0",
     "koa-router": "7.3.0",
     "lodash": "4.17.4",
+    "lru-cache": "4.1.1",
     "moment": "2.20.1",
     "numeral": "2.0.6",
     "strict-env": "1.1.0"
