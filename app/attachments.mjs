@@ -21,7 +21,7 @@ export const createAttachmentsForIdentifier = async (identifier) => {
   } = info;
   const summary = await getSummary(symbol);
   const value = summary.price;
-  const valueText = value <= 10 ? `${value}` : numeral(value).format(VALUE_ROUNDED_FORMAT);
+  const valueText = value <= 10 ? `$${value}` : numeral(value).format(VALUE_ROUNDED_FORMAT);
   const details = {
     mrkdwn_in: ['text'],
     text: [
