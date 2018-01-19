@@ -12,7 +12,25 @@ const createRouter = () => {
 
   router.post('/slack', async (ctx) => {
     const { text } = ctx.request.body;
-    const identifiers = text.trim().split(/\s+|\s*,\s*/).filter(s => s);
+    const identifiers = _.chain(text.toLowerCase())
+      .split(/\s+|\s*,\s*/)
+      .filter()
+      .uniq()
+      .value();
+    if (identifiers.length === 0) {
+      ctx.body = {
+        attachments: [{
+          mrkdwn_in: ['text'],
+          text: [
+            'Specify at least one cryptocurrency to check. For example:',
+            '*/crypto BTC eth dogecoin*',
+            '(You can use symbols or full names.)',
+          ].join('\n'),
+        }],
+        response_type: 'in_channel',
+      };
+      return;
+    }
     const attachPromises = identifiers.map(createAttachmentsForIdentifier);
     const attachments = _.flatten(await Promise.all(attachPromises));
     ctx.body = {
