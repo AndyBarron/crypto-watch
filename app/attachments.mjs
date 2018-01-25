@@ -7,8 +7,31 @@ const PERCENT_FORMAT = '+0,0.0';
 const SUPPLY_FORMAT = '0,0.0a';
 const VALUE_ROUNDED_FORMAT = '$0,0.00';
 
+const CHUNG_FACE = 'http://c.fastcdn.co/t/f9bd9be9/415503bf/1516129213-8069213-100x100x100x100x0x0-photo-chung.png';
+
 // eslint-disable-next-line import/prefer-default-export
 export const createAttachmentsForIdentifier = async (identifier) => {
+  if (['chungcoin', 'cgc'].includes(identifier.toLowerCase())) {
+    return [
+      {
+        mrkdwn_in: ['text'],
+        text: [
+          '*Value: $∞*',
+          '_Market cap: $∞_',
+          '_Supply: ∞_',
+        ].join('\n'),
+        thumb_url: CHUNG_FACE,
+        title: 'Chungcoin (CGC)',
+        title_link: 'http://info.maestro.io/company',
+      },
+      {
+        color: 'green',
+        mrkdwn_in: ['text'],
+        text: ':moneybag: *BUY NOW* :moneybag:',
+      },
+    ];
+  }
+
   const info = await getInfo(identifier);
   if (!info) {
     return [{
