@@ -7,7 +7,7 @@ const PERCENT_FORMAT = '+0,0.0';
 const SUPPLY_FORMAT = '0,0.0a';
 const VALUE_ROUNDED_FORMAT = '$0,0.00';
 
-const CHUNG_FACE = 'http://c.fastcdn.co/t/f9bd9be9/415503bf/1516129213-8069213-100x100x100x100x0x0-photo-chung.png';
+const CHUNG_FACE = 'https://i.imgur.com/aiOX59x.jpg';
 
 // eslint-disable-next-line import/prefer-default-export
 export const createAttachmentsForIdentifier = async (identifier) => {
