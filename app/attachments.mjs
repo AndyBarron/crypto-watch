@@ -25,7 +25,7 @@ export const createAttachmentsForIdentifier = async (identifier) => {
         title_link: 'http://info.maestro.io/company',
       },
       {
-        color: 'green',
+        color: 'good',
         mrkdwn_in: ['text'],
         text: ':moneybag: *BUY NOW* :moneybag:',
       },
