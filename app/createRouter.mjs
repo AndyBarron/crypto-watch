@@ -12,6 +12,19 @@ const createRouter = () => {
 
   router.post('/slack', async (ctx) => {
     const { text } = ctx.request.body;
+
+    const clean = (text || '')
+      .toLowerCase()
+      .replace(/[^a-z]/g, '');
+
+    if (clean === 'shouldisell') {
+      ctx.body = {
+        response_type: 'in_channel',
+        text: ':raised_hand_with_fingers_splayed: *HOLD!!!*',
+      };
+      return;
+    }
+
     const identifiers = _.chain(text.toLowerCase())
       .split(/\s+|\s*,\s*/)
       .filter()
